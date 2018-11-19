@@ -46,7 +46,7 @@ pub fn main() !void {
   var dsa = DoubleStackAllocator.init(memory[0..]);
 
   const g = &game_state;
-  try Platform.init(&g.platform_state, Platform.InitParams{
+  Platform.init(&g.platform_state, Platform.InitParams{
     .window_title = "Oxid",
     .virtual_window_width = VWIN_W,
     .virtual_window_height = VWIN_H,
@@ -54,7 +54,10 @@ pub fn main() !void {
     .audio_frequency = 44100,
     .audio_buffer_size = 1024,
     .dsa = &dsa,
-  });
+  }) catch |err| {
+    std.debug.warn("Platform.init failed: {}.\n", err);
+    return;
+  };
   defer Platform.deinit(&g.platform_state);
 
   const rand_seed = blk: {
