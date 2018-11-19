@@ -67,7 +67,7 @@ fn getSource(comptime version: shaders.GLSLVersion) shaders.ShaderSource {
   };
 }
 
-pub fn create(stack: *StackAllocator, version: shaders.GLSLVersion) !Shader {
+pub fn create(stack: *StackAllocator, version: shaders.GLSLVersion) shaders.InitError!Shader {
   errdefer std.debug.warn("Failed to create primitive shader program.\n");
 
   defer debug_gl.assertNoError();
